@@ -12,6 +12,7 @@ public class Main {
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(AppConfig.class);
         UserService userService = context.getBean(UserService.class);
+
         User tito = new User();
         tito.setFirstName("Tito");
         tito.setLastName("Ortiz");
