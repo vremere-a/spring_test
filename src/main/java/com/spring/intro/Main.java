@@ -11,12 +11,11 @@ public class Main {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(AppConfig.class);
-        UserService userService = context.getBean(UserService.class);
-
         User tito = new User();
         tito.setFirstName("Tito");
         tito.setLastName("Ortiz");
         tito.setEmail("tito.ortiz@ex.ua");
+        UserService userService = context.getBean(UserService.class);
         userService.add(tito);
 
         User chuck = new User();
