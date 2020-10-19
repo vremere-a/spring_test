@@ -18,11 +18,16 @@ import org.springframework.stereotype.Repository;
 @Log4j
 public class UserDaoImpl implements UserDao {
 
+    private final SessionFactory sessionFactory;
+
     @Autowired
-    private SessionFactory sessionFactory;
+    public UserDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public void add(User user) {
+        log.info("Trying to add entity " + user + "from DB");
         Session session = null;
         Transaction transaction = null;
         try {
@@ -35,8 +40,8 @@ public class UserDaoImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't add user entity with id"
-                    + user.getId(), e);
+            throw new DataProcessingException("Can't add user entity "
+                    + user, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -46,11 +51,12 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> listUsers() {
+        log.info("Trying to show all users from the database");
         try (Session session = sessionFactory.openSession()) {
-            CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<User> cq = cb.createQuery(User.class);
-            Root<User> userRoot = cq.from(User.class);
-            return session.createQuery(cq.select(userRoot)).getResultList();
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<User> userCriteriaQuery = criteriaBuilder.createQuery(User.class);
+            Root<User> userRoot = userCriteriaQuery.from(User.class);
+            return session.createQuery(userCriteriaQuery.select(userRoot)).getResultList();
         }
     }
 }
