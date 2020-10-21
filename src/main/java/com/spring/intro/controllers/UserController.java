@@ -4,11 +4,14 @@ import com.spring.intro.config.AppConfig;
 import com.spring.intro.dto.UserResponseDto;
 import com.spring.intro.model.User;
 import com.spring.intro.service.UserService;
-import lombok.extern.log4j.Log4j;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.log4j.Log4j;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Log4j
 @RestController
@@ -58,7 +61,7 @@ public class UserController {
         return mapUserResponseDto(userService.getById(userId));
     }
 
-    public UserResponseDto mapUserResponseDto (User user) {
+    public UserResponseDto mapUserResponseDto(User user) {
         UserResponseDto userResponseDto = new UserResponseDto();
         userResponseDto.setName(user.getFirstName());
         userResponseDto.setSurname(user.getLastName());

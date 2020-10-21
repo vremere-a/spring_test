@@ -4,7 +4,6 @@ import com.spring.intro.dao.UserDao;
 import com.spring.intro.exeptions.DataProcessingException;
 import com.spring.intro.model.User;
 import java.util.List;
-import java.util.Optional;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
