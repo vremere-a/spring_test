@@ -6,6 +6,7 @@ import com.spring.intro.model.User;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import lombok.extern.log4j.Log4j;
 import org.hibernate.Session;
@@ -57,6 +58,18 @@ public class UserDaoImpl implements UserDao {
             CriteriaQuery<User> userCriteriaQuery = criteriaBuilder.createQuery(User.class);
             Root<User> userRoot = userCriteriaQuery.from(User.class);
             return session.createQuery(userCriteriaQuery.select(userRoot)).getResultList();
+        }
+    }
+
+    @Override
+    public User getById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+            Root<User> userIdlRoot = criteriaQuery.from(User.class);
+            Predicate predicate = criteriaBuilder.equal(userIdlRoot.get("userId"), id);
+            criteriaQuery.select(userIdlRoot).where(predicate);
+            return session.createQuery(criteriaQuery).uniqueResult();
         }
     }
 }
